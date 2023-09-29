@@ -11,6 +11,7 @@ setup(
     author_email='famgz@proton.me',
     packages=['ig_dl'],
     package_dir={'ig_dl': 'src/ig_dl'},
+    include_package_data=False,
     url='https://github.com/famgz/ig-dl',
     install_requires=REQUIREMENTS
 )

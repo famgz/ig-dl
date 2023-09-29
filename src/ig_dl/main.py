@@ -48,7 +48,7 @@ def is_json_response(r):
 
 
 def get_page(url, params=None):
-    r = session.get(url, headers=headers, cookies=cookies, params=params)
+    r = session.get(url, headers=headers, cookies=cookies, params=params, timeout=10)
     if not r.ok:
         print(f'[yellow]response not ok for url: {url}')
         if is_json_response(r):
@@ -57,13 +57,16 @@ def get_page(url, params=None):
     return r
 
 
-def get_user_id(name):
+def get_user_id(username):
     # url = f'https://www.instagram.com/{name}/?__a=1'  # deprecated
     url = 'https://www.instagram.com/api/v1/users/web_profile_info/'
     params = {
-       'username': name,
+       'username': username,
     }
-    r = requests.get(url, headers=headers, params=params)
+    r = get_page(url, params=params)
+    if not r:
+        print(f'[black on yellow]username `{username}` not found')
+        return None
     rj = r.json()
     # user_id = rj['graphql']['user']['id']  # deprecated
     user_id = rj['data']['user']['id']
@@ -357,10 +360,13 @@ def scrape(page_name='', get_posts=POSTS, get_stories=STORIES, get_highlights=HI
     if not page_name:
         page_name = input("Input instagram account name:\n>").lower().strip()
 
-    check_profile_dirs(page_name)
-
     page_id = get_user_id(page_name)
+    if not page_id:
+        return
+
     print(f'\n[bold blue]{page_name}')
+
+    check_profile_dirs(page_name)
 
     # get posts
     if get_posts:

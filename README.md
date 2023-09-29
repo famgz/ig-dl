@@ -19,3 +19,5 @@ pip install git+https://github.com/famgz/ig-dl.git
 ```
 python -m ig_dl <username>
 ```
+
+[!asd](https://raw.githubusercontent.com/famgz/ig-dl/main/screenshots/screenshot.jpg)

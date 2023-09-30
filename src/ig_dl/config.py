@@ -9,6 +9,18 @@ COOKIES_DIR = Path(SOURCE_DIR, 'cookies')
 TEMP_DIR = Path(SOURCE_DIR, 'temp')
 OUTPUT_DIR = 'C:\\INSTAGRAM'
 
+_root_folders = [
+    path
+    for name, path in locals().items()
+    if isinstance(path, Path)
+    and name.endswith('_DIR')
+]
+
+# check root folders
+for folder in _root_folders:
+    if not folder.exists():
+        folder.mkdir(parents=True, exist_ok=True)
+
 _cookies_keys = [
     'ig_did',
     'mid',
@@ -22,7 +34,11 @@ _cookies_keys = [
     'shbts',
 ]
 
-cookies = Cookies(COOKIES_DIR).get_cookies()
+_cookies = Cookies(COOKIES_DIR)
+
+_cookies.check_expired_cookies()
+
+cookies = _cookies.get_cookies()
 
 headers = {
     'authority': 'www.instagram.com',

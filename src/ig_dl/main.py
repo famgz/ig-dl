@@ -1,7 +1,7 @@
 import json
 import os
 import requests
-from famgz_utils import print, open_folder, json_
+from famgz_utils import print, open_folder, json_, is_json_response
 from os import path as p
 from pathlib import Path
 from time import sleep
@@ -13,7 +13,7 @@ from .config import (
     COOKIES_DIR,
     TEMP_DIR,
     OUTPUT_DIR,
-    cookies,
+    _cookies,
     headers,
     session,
 )
@@ -43,12 +43,8 @@ def check_profile_dirs(page_name):
         path.mkdir(parents=True, exist_ok=True)
 
 
-def is_json_response(r):
-    return 'json' in r.headers.get('content-type')
-
-
 def get_page(url, params=None):
-    r = session.get(url, headers=headers, cookies=cookies, params=params, timeout=10)
+    r = session.get(url, headers=headers, cookies=_cookies, params=params, timeout=10)
     if not r.ok:
         print(f'[yellow]response not ok for url: {url}')
         if is_json_response(r):

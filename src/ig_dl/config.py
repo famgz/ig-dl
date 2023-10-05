@@ -9,15 +9,13 @@ COOKIES_DIR = Path(SOURCE_DIR, 'cookies')
 TEMP_DIR = Path(SOURCE_DIR, 'temp')
 OUTPUT_DIR = 'C:\\INSTAGRAM'
 
-_folders = dict(locals())
-
 _root_folders = [
     path
-    for name, path in _folders.items()
+    for name, path in dict(locals()).items()
     if isinstance(path, Path) and name.endswith('_DIR')
 ]
 
-# check root folders
+# check and create root folders
 for folder in _root_folders:
     if not folder.exists():
         folder.mkdir(parents=True, exist_ok=True)

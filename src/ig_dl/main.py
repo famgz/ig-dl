@@ -13,7 +13,7 @@ from .config import (
     COOKIES_DIR,
     TEMP_DIR,
     OUTPUT_DIR,
-    _cookies,
+    cookies,
     headers,
     session,
 )
@@ -44,7 +44,7 @@ def check_profile_dirs(page_name):
 
 
 def get_page(url, params=None):
-    r = session.get(url, headers=headers, cookies=_cookies, params=params, timeout=10)
+    r = session.get(url, headers=headers, cookies=cookies, params=params, timeout=10)
     if not r.ok:
         print(f'[yellow]response not ok for url: {url}')
         if is_json_response(r):
@@ -77,14 +77,6 @@ def search_friends(username, string, full_profile_links=True, to_json=False):
         results = _friends_cache[username]
 
     else:
-        cookies = {
-            'GET SEARCHER COOKIES'
-        }
-
-        headers = {
-            'GET SEARCHER HEADERS'
-        }
-
         results = {}
         user_id = get_user_id(username)
         ITEMS = 100

@@ -1,6 +1,9 @@
 import sys
 from famgz_utils import print
+from pathlib import Path
 
+if __package__ is None:
+    sys.path.insert(0, Path(__file__).resolve().parent.parent)
 
 if __name__ == '__main__':
 
@@ -11,8 +14,8 @@ if __name__ == '__main__':
         if username == 'q':
             exit()
 
-    from ig_dl.main import scrape
-    from ig_dl.config import OUTPUT_DIR, session
+    from .main import scrape
+    from .config import OUTPUT_DIR, session
 
     try:
         print(f'[white]The files will be saved to: {OUTPUT_DIR}\\{username}')

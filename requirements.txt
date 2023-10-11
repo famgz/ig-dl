@@ -1,4 +1,4 @@
-requests==2.27.1
-Unidecode==1.3.4
+requests
+Unidecode
 
 famgz-utils @ git+https://github.com/famgz/famgz-utils.git@main

@@ -13,9 +13,11 @@ pip install git+https://github.com/famgz/ig-dl.git
 
 ### Usage
 -----
+For private accounts:
 - Get your account cookies from browser console or use some [extension tool](https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
 - Save your cookies file to `./config` folder in either Netscape (txt) or JSON formats.
-- Run the code
+
+- Run the code:
 ```
 python -m ig_dl <username>
 ```

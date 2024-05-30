@@ -13,9 +13,9 @@ from .config import (
     session,
 )
 
-POSTS      = True
-HIGHLIGHTS = False
-STORIES    = False
+GET_POSTS      = True
+GET_HIGHLIGHTS = False
+GET_STORIES    = False
 
 _ASCII = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
 
@@ -36,7 +36,7 @@ def check_profile_dirs(page_name):
 def get_page(url, params=None):
     r = session.get(url, headers=headers, cookies=cookies, params=params, timeout=10)
     if not r.ok:
-        print(f'[yellow]response not ok for url: {url}')
+        print(f'response not ok for url: [yellow]{url}\n')
         if is_json_response(r):
             print(f'[yellow]{r.json()}')
         return None
@@ -126,7 +126,7 @@ def download_images(username, mode):
 
     def save_file(img_path, display_url) -> bool:
         r = get_page(display_url)
-        if not r.ok:
+        if not r:
             return False
         with open(img_path, 'wb') as f:
             f.write(r.content)
@@ -207,7 +207,7 @@ def get_reels(items):
     return img_urls
 
 
-def scrape(page_name='', get_posts=POSTS, get_stories=STORIES, get_highlights=HIGHLIGHTS):
+def scrape(page_name='', get_posts=GET_POSTS, get_stories=GET_STORIES, get_highlights=GET_HIGHLIGHTS):
 
     def check_img(edge):
         node = edge['node']
@@ -238,6 +238,8 @@ def scrape(page_name='', get_posts=POSTS, get_stories=STORIES, get_highlights=HI
                 media_counter = 0
             chunk_temp.append(tr['id'])
             media_counter += medias
+        if chunk_temp:
+            chunks.append(chunk_temp)
         return chunks
 
     if not page_name:
@@ -355,7 +357,7 @@ def routine():
 
     try:
         for profile in routine_profiles:
-            scrape(profile, get_posts=POSTS, get_stories=STORIES, get_highlights=HIGHLIGHTS)
+            scrape(profile, get_posts=GET_POSTS, get_stories=GET_STORIES, get_highlights=GET_HIGHLIGHTS)
 
     finally:
         if _profiles_with_news and OPEN_FOLDERS_WITH_NEWS:
